@@ -1,0 +1,7 @@
+.git
+.next
+.next-build
+node_modules
+npm-debug.log
+backend/bin
+docs

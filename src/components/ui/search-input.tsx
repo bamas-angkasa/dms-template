@@ -1,0 +1,2 @@
+import { Search,SlidersHorizontal } from "lucide-react";
+export function SearchInput({placeholder="Cari data...",value,onChange,filter=true}:{placeholder?:string;value?:string;onChange?:(value:string)=>void;filter?:boolean}){return <div className="search-row"><label className="search-input"><Search size={18}/><input aria-label={placeholder} placeholder={placeholder} value={value} onChange={e=>onChange?.(e.target.value)}/></label>{filter&&<button className="icon-button secondary" aria-label="Filter"><SlidersHorizontal size={19}/></button>}</div>}

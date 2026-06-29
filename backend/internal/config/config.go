@@ -7,8 +7,8 @@ import (
 
 type Config struct {
 	Address      string
-	DatabaseURL string
-	FrontendURL string
+	DatabaseURL  string
+	FrontendURL  string
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 }
@@ -20,4 +20,9 @@ func Load() Config {
 	}
 }
 
-func env(key, fallback string) string { if value := os.Getenv(key); value != "" { return value }; return fallback }
+func env(key, fallback string) string {
+	if value := os.Getenv(key); value != "" {
+		return value
+	}
+	return fallback
+}

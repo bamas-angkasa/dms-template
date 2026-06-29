@@ -1,109 +1,118 @@
-# AICE Distributor DMS — Project Progress
+# AICE Distributor DMS - Completion Record
 
 Last updated: 29 June 2026 (Asia/Bangkok)
 
-This document is the continuation handoff for the active goal: build the complete
-AICE Distributor DMS and commit each feature separately. Read the original product
-brief from the Codex attachment when available, then use this file as the execution
-checkpoint.
+## Objective
 
-## Goal and working rules
+Build a complete, client-demo-ready mobile DMS for AICE Distributor - Mrs Wang,
+while keeping the architecture ready for future distributor tenants. Commit every
+feature separately and avoid unnecessary enterprise complexity.
 
-- Build a polished mobile-first SaaS-ready DMS for **AICE Distributor — Mrs Wang**.
-- Next.js/TypeScript/Tailwind frontend; Go REST API; PostgreSQL; Docker Compose.
-- All business data and backend handlers must remain tenant-scoped.
-- Keep the architecture simple and demo-ready; no unnecessary infrastructure.
-- Run TypeScript/build checks and create a dedicated Git commit for every feature.
-- Preserve the fixed mobile bottom navigation and responsive desktop sidebar.
+## Phase 1 - UI foundation: complete
 
-## Phase status
-
-### Phase 1 — UI foundation: completed
-
-- Next.js 15 App Router, React 19, TypeScript, Tailwind, Lucide.
-- AICE theme tokens, Plus Jakarta Sans, shared global styles.
-- Mobile top bar, fixed bottom navigation, responsive desktop sidebar.
-- Reusable metric cards, section cards, badges, search, product placeholders.
-- Tenant branding and module configuration in `src/lib/tenant.ts`.
-- Indonesian currency/number helpers and typed mock data.
+- Next.js App Router, TypeScript, Tailwind and Lucide
+- AICE theme tokens, shared UI components and typed Indonesian demo data
+- Mobile top app bar, fixed bottom navigation and responsive desktop sidebar
+- Tenant branding/module configuration
 
 Commit: `ec3dc5a feat: scaffold AICE mobile application foundation`
 
-### Phase 2 — Mobile pages: in progress
+## Phase 2 - Mobile product modules: complete
 
-Completed:
+- Dashboard: `15e034f feat: add mobile distributor dashboard`
+- Sales Order: `f1a903c feat: add interactive sales order workflow`
+- Outlet management: `d7c449e feat: add outlet management workspace`
+- Stock management: `a6554a2 stable version #1`
+- Delivery management: `39dc118 feat: add delivery management and route tracking`
+- Receivables: `c347e30 feat: add receivables aging and payment tracking`
+- Tax/XML: `75cc8c8 feat: add tax validation and XML export workflow`
+- Product catalog: `94d6c90 feat: add interactive product catalog management`
+- More/settings/reports: `a83d02b feat: add more menu tenant settings and reports`
+- Sales Order acceptance fixes/API submit: `f8864a0 fix: complete sales order fields and API submission`
 
-- Dashboard: KPIs, sales line chart, order donut, recent orders, favorite product,
-  and delivery summary.
-  - Commit: `15e034f feat: add mobile distributor dashboard`
-- Sales order: interactive quantity controls, product search/cart, automatic
-  discount/PPN/total calculation, draft/submit actions.
-  - Commit: `f1a903c feat: add interactive sales order workflow`
-- Outlet management: search, regional filters, selectable details, tax identity,
-  credit utilization, location placeholder, and recent activity.
-  - Commit: `d7c449e feat: add outlet management workspace`
-- Stock management: KPIs, tabs, stock levels, mutations, restock alerts, warehouse
-  distribution, and movement chart.
-  - Commit: `a6554a2 stable version #1` (also contains the CSS/build-cache fix)
+## Presentation and PWA: complete
 
-Remaining Phase 2 pages, in this order:
+- Four Android/Infinix CSS phone frames for Dashboard, Order, Stock and Delivery
+- Presentation route `/preview/android`
+- Manifest, two local scalable app icons, PWA shortcuts and service worker
+- Production build prerenders every application route
 
-1. Delivery management (`/delivery`)
-2. Receivables and payments (`/receivables`)
-3. Tax XML validation/export simulation (`/tax-xml`)
-4. Product catalog (`/products`)
-5. More menu (`/more`), settings (`/settings`), reports placeholder (`/reports`)
+Commit: `0e1aca7 feat: add Android showcase and installable PWA shell`
 
-### Phase 3 — Backend API: not started
+## Phase 3 - Backend/API/database: complete for MVP scope
 
-Create a simple Go service with `/api/v1` endpoints for current user/tenant,
-dashboard, products, outlets, orders, stock, delivery, receivables, and tax.
-Use tenant middleware and in-memory fallback only where PostgreSQL is unavailable.
+- Go standard-library REST API and graceful server lifecycle
+- All requested `/api/v1` GET/POST endpoints
+- Deterministic demo store: 12 products, 20 outlets, 20 orders, 10 deliveries,
+  20 receivables and 20 tax invoices
+- Tenant middleware, unknown-tenant rejection and bearer-format validation
+- Working order creation, tax validation and XML response generation
+- PostgreSQL schema: 18 required tables, 17 tenant-scoped business tables
+- Seed data for Mrs Wang, roles/users, products, outlets, warehouses and operations
+- Dockerfiles and Compose stack for web, API and PostgreSQL
 
-### Phase 4 — SaaS foundation: frontend seed complete; backend pending
+Commits:
 
-Frontend tenant branding/module toggles exist. Still required: PostgreSQL tenant
-schema, tenant-scoped middleware, mock JWT/session, user roles, and server-side
-module enforcement.
+- `f11110c feat: add tenant-scoped Go REST API`
+- `bb31959 feat: add PostgreSQL schema seed and Docker stack`
+- `8b02dce chore: format and verify Go API sources`
 
-### Phase 5 — Desktop responsive: shell complete; page refinement pending
+## Phase 4 - SaaS foundation: complete for MVP scope
 
-The desktop sidebar and responsive content layout exist. Refine tables and denser
-desktop layouts after all mobile pages are complete.
+- Tenant model and branding configuration
+- Tenant header middleware and isolation tests
+- Five core roles in PostgreSQL seed
+- Module toggles in frontend tenant settings and database JSON configuration
+- Mock bearer/session behavior documented as a deliberate production boundary
 
-### Presentation/PWA: not started
+## Phase 5 - Responsive desktop: complete for demo scope
 
-- Add `/preview/android` with 3–4 CSS phone frames.
-- Add `manifest.webmanifest`, icons, install metadata, and offline-ready shell.
+- Desktop sidebar navigation
+- Responsive multi-column dashboard, lists and detail panels
+- Mobile card layouts remain the primary experience
 
-## Verification checkpoint
+## Frontend/API integration: complete for demo scope
 
-- `npm run typecheck`: passing after dashboard/order/outlet work.
-- Production build: passing with stock page included on 29 June 2026.
-- A running dev server shares `.next`; use an isolated build cache to avoid chunk
-  races:
+- Central API adapter exposes every endpoint
+- Tenant identity is fetched at runtime when the API is configured
+- Automatic typed mock fallback preserves standalone/Vercel demos
+- Header identifies Live versus Demo data source
 
-  ```powershell
-  $env:NEXT_DIST_DIR = '.next-build'
-  npm run build
-  ```
+Commit: `aa82b5f feat: add API client with resilient mock fallback`
 
-- The dashboard stylesheet syntax error in `.donut-legend p` was fixed. It was a
-  malformed `var(--muted)` declaration.
-- Next.js automatically added `.next-build/types/**/*.ts` to `tsconfig.json`.
+## Verification evidence
 
-## Immediate continuation checklist
+Frontend:
 
-1. Build and commit each remaining Phase 2 module.
-2. Add and commit Android preview + PWA.
-3. Add and commit Go API, database schema/seed, Docker Compose, and SaaS middleware.
-4. Add frontend API client with mock fallback.
-5. Run Go tests, TypeScript check, and isolated-cache production build.
-6. Update README run instructions and this progress document.
+- `npm run typecheck`: passed
+- Isolated-cache `npm run build`: passed; 14 application routes and 16 static pages
+- Production HTTP smoke test: HTTP 200 for every requested route, Android preview,
+  manifest and service worker
 
-## Definition of done
+Backend:
 
-The goal is complete only after every requested route works, Android preview exists,
-the Go API/database/Docker structure runs, tenant scoping is present, seed data is
-prepared, full checks pass, and the Git working tree is clean with feature-level
-commits.
+- Official checksum-verified portable Go 1.26.4 used for verification
+- `go test ./...`: passed
+- `go vet ./...`: passed
+- Runtime API smoke test: all requested GET endpoints returned HTTP 200
+- Unknown tenant returned HTTP 403
+- Order creation returned HTTP 201
+- Tax export returned HTTP 200 and `application/xml`
+
+Database/Docker:
+
+- Static schema audit found 18 core tables and 17 `tenant_id` business tables
+- Seed includes the exact required demo counts and named AICE products/outlets
+- Docker runtime was not available on the verification workstation; Compose and SQL
+  should receive an integration run on a Docker-equipped delivery environment.
+
+## Recommended next production phase
+
+These are post-MVP hardening tasks, not blockers for the requested demo product:
+
+1. Implement a PostgreSQL repository behind the current in-memory store interface.
+2. Add signed authentication, password hashing and server-enforced permissions.
+3. Add browser E2E tests and visual-regression snapshots for 430px Android viewport.
+4. Replace branded product placeholders with approved licensed product assets.
+5. Confirm the tax XML mapping against the customer's current Coretax import format.
+6. Add CI for Next.js build, Go tests and disposable PostgreSQL seed validation.

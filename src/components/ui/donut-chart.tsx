@@ -1,0 +1,1 @@
+export function DonutChart(){return <div className="donut-wrap"><div className="donut"><div><strong>48</strong><span>Total</span></div></div><div className="donut-legend"><p><i className="dot-blue"/>Diproses <b>18</b></p><p><i className="dot-green"/>Terkirim <b>22</b></p><p><i className="dot-yellow"/>Menunggu <b>6</b></p><p><i className="dot-red"/>Batal <b>2</b></p></div></div>}
